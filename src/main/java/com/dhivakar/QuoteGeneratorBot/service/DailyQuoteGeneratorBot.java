@@ -18,10 +18,9 @@ import java.util.List;
 public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
 
 
-
     static List<BotUser> botUserList = new ArrayList<>();
-    private final String botName =System.getenv("BOT_NAME");
-    private final String bottoken =System.getenv("BOT_TOKEN");
+    private final String botName = System.getenv("BOT_NAME");
+    private final String bottoken = System.getenv("BOT_TOKEN");
     public long chat_ID;
     QuoteGeneratorService generatorService = new QuoteGeneratorService();
     Quote q = new Quote();
@@ -32,31 +31,7 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
     @SneakyThrows
     @Override
     public void onUpdateReceived(Update update) {
-        System.out.println(update);
-        if (update.hasMessage() && update.getMessage().getText().equals("/start")) {
-            //System.out.println(update);
-            chat_ID = update.getMessage().getChat().getId();
-            User user = update.getMessage().getFrom();
-            BotUser botlist = new BotUser();
-            botlist.setChatID(chat_ID);
-            if (!botUserList.contains(botlist)) {
-                botUserList.add(botlist);
-            }
-            SendMessage sendingMessage = new SendMessage();
-            sendingMessage.setChatId(String.valueOf(chat_ID));
-            StringBuilder s=new StringBuilder("Hi ");
-            s.append(user.getFirstName());
-            if(user.getLastName() != null){
-                s.append(user.getLastName());
-            }
-            sendingMessage.setText(s.toString());
-            finalizemessage(sendingMessage);
-
-        }
-        for (BotUser u : botUserList) {
-            System.out.println(u);
-        }
-
+        processMessage(update);
     }
 
     @Scheduled(cron = "0 0 12,18 * * ?")
@@ -66,18 +41,15 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
             System.out.println("Scheduled Method Called");
             System.out.println("List Size is " + botUserList.size());
             q = generatorService.generateQuote();
-            String s = q.getQuote() + "\n              - " + q.getAuthor();
+            String s = q.getQuote() + "\n              \t- " + q.getAuthor();
             System.out.println(q.toString());
             for (BotUser u : botUserList) {
                 SendMessage message = new SendMessage();
                 message.setChatId(String.valueOf(u.getChatID()));
                 message.setText(s);
                 System.out.println(message);
-                try {
-                    execute(message);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                finalizemessage(message);
+
 
             }
         } else {
@@ -111,5 +83,40 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
         }
     }
 
+    public void processMessage(Update update) {
+        System.out.println(update);
+        if (update.hasMessage() && update.getMessage().getText().equals("/start")) {
+            //System.out.println(update);
+            chat_ID = update.getMessage().getChat().getId();
+            User user = update.getMessage().getFrom();
+            BotUser botlist = new BotUser();
+            botlist.setChatID(chat_ID);
+            if (!botUserList.contains(botlist)) {
+                botUserList.add(botlist);
+            }
+            SendMessage sendingMessage = new SendMessage();
+            sendingMessage.setChatId(String.valueOf(chat_ID));
+            StringBuilder s = new StringBuilder("Hi ");
+            s.append(user.getFirstName());
+            if (user.getLastName() != null) {
+                s.append(user.getLastName());
+            }
+            sendingMessage.setText(s.toString());
+            finalizemessage(sendingMessage);
 
+        } else if (update.hasMessage() && update.getMessage().getText().equals("/randomquote")) {
+            chat_ID = update.getMessage().getChat().getId();
+            q = generatorService.generateQuote();
+            String s = q.getQuote() + "\n              \t- " + q.getAuthor();
+            System.out.println(q.toString());
+            SendMessage message = new SendMessage();
+            message.setChatId(String.valueOf(chat_ID));
+            message.setText(s);
+            finalizemessage(message);
+
+
+        }
+
+
+    }
 }
