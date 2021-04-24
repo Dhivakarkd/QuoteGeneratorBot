@@ -20,10 +20,8 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
 
 
     static List<BotUser> botUserList = new ArrayList<>();
-    private final String botName = "DailyQuoteGeneratorBot";
-            //System.getenv("BOT_NAME");
-    private final String bottoken ="1759075206:AAHdI9gsGJlH0uvrEwUw78PmUhp5pL-bBCc";
-                    //System.getenv("BOT_TOKEN");
+    private final String botName =System.getenv("BOT_NAME");
+    private final String bottoken =System.getenv("BOT_TOKEN");
     public long chat_ID;
     QuoteGeneratorService generatorService = new QuoteGeneratorService();
     Quote q = new Quote();
@@ -46,7 +44,12 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
             }
             SendMessage sendingMessage = new SendMessage();
             sendingMessage.setChatId(String.valueOf(chat_ID));
-            sendingMessage.setText("Hi " + user.getFirstName() + " " + user.getLastName());
+            StringBuilder s=new StringBuilder("Hi ");
+            s.append(user.getFirstName());
+            if(user.getLastName() != null){
+                s.append(user.getLastName());
+            }
+            sendingMessage.setText(s.toString());
             finalizemessage(sendingMessage);
 
         }
@@ -56,7 +59,7 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
 
     }
 
-    @Scheduled(cron = "0 12,18 * * ?")
+    @Scheduled(cron = "0 0 12,18 * * ?")
     public void sendquote() {
 
         if (!botUserList.isEmpty()) {
