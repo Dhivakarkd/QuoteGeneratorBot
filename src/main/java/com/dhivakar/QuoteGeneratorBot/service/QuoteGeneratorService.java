@@ -38,7 +38,7 @@ public List<BotUser> getbotuser(){
     b.setChatID(1273845668);
     list.add(b);
 
-   // System.out.println(list);
+
     return list;
 }
 public void addbotuser(){

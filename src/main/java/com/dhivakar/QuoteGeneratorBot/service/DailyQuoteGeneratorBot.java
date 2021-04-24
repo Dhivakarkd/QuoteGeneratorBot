@@ -54,7 +54,7 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
 
     }
 
-    @Scheduled(fixedDelay = 40000)
+    @Scheduled(cron = "0 12,18 * * ?")
     public void sendquote() {
 
         if (!botUserList.isEmpty()) {
