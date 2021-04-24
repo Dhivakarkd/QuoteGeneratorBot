@@ -20,8 +20,10 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
 
 
     static List<BotUser> botUserList = new ArrayList<>();
-    private final String botName = System.getenv("BOT_NAME");
-    private final String bottoken =System.getenv("BOT_TOKEN");
+    private final String botName = "DailyQuoteGeneratorBot";
+            //System.getenv("BOT_NAME");
+    private final String bottoken ="1759075206:AAHdI9gsGJlH0uvrEwUw78PmUhp5pL-bBCc";
+                    //System.getenv("BOT_TOKEN");
     public long chat_ID;
     QuoteGeneratorService generatorService = new QuoteGeneratorService();
     Quote q = new Quote();
