@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class QuoteGeneratorBotApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		SpringApplication.run(QuoteGeneratorBotApplication.class, args);
-	}
+        SpringApplication.run(QuoteGeneratorBotApplication.class, args);
+    }
 
 }

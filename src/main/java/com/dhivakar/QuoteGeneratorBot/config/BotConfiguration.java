@@ -10,21 +10,21 @@ import org.springframework.core.env.Environment;
 public class BotConfiguration implements EnvironmentAware {
 
 
-    private  static Environment environment;
+    private static Environment environment;
 
 
     public static String getBotName() {
-        String s=environment.getProperty("BOT_NAME");
+        String s = environment.getProperty("BOT_NAME");
         return s;
     }
 
     public static String getBottoken() {
-        String s=environment.getProperty("BOT_TOKEN");
+        String s = environment.getProperty("BOT_TOKEN");
         return s;
     }
 
     @Override
     public void setEnvironment(Environment environment) {
-        BotConfiguration.environment=environment;
+        BotConfiguration.environment = environment;
     }
 }

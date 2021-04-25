@@ -13,37 +13,38 @@ import java.util.List;
 
 
 public class QuoteGeneratorService {
-    List<BotUser> userList=new ArrayList<>();
-    String target="https://quotegenerator123.herokuapp.com/randomQuote";
+    List<BotUser> userList = new ArrayList<>();
+    String target = "https://quotegenerator123.herokuapp.com/randomQuote";
 
-public Quote generateQuote(){
-    System.out.println("getting in Generate Quote");
+    public Quote generateQuote() {
+        System.out.println("getting in Generate Quote");
 
-    Response cb = ClientBuilder.newClient().target(target).request(MediaType.APPLICATION_JSON_TYPE).get();
-    String s=cb.readEntity(String.class);
-    ObjectMapper mapper=new ObjectMapper();
-    Quote q=null;
-    try {
-        q=mapper.readValue(s,Quote.class);
-    } catch (JsonProcessingException e) {
-        e.printStackTrace();
+        Response cb = ClientBuilder.newClient().target(target).request(MediaType.APPLICATION_JSON_TYPE).get();
+        String s = cb.readEntity(String.class);
+        ObjectMapper mapper = new ObjectMapper();
+        Quote q = null;
+        try {
+            q = mapper.readValue(s, Quote.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        if (q != null && q.getAuthor().isEmpty()) {
+            q.setAuthor("Unknown");
+        }
+
+        return q;
+
     }
 
-    return q;
-
-}
-public List<BotUser> getbotuser(){
-    List<BotUser> list=new ArrayList<>();
-    BotUser b=new BotUser();
-    b.setChatID(1273845668);
-    list.add(b);
+    public List<BotUser> getbotuser() {
+        List<BotUser> list = new ArrayList<>();
+        BotUser b = new BotUser();
+        b.setChatID(1273845668);
+        list.add(b);
 
 
-    return list;
-}
-public void addbotuser(){
-
-}
+        return list;
+    }
 
 
 }

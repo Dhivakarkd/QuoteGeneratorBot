@@ -41,7 +41,7 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
             System.out.println("Scheduled Method Called");
             System.out.println("List Size is " + botUserList.size());
             q = generatorService.generateQuote();
-            String s = q.getQuote() + "\n              \t- " + q.getAuthor();
+            String s = q.getQuote() + "\n\n\t\t- " + q.getAuthor();
             System.out.println(q.toString());
             for (BotUser u : botUserList) {
                 SendMessage message = new SendMessage();
@@ -84,9 +84,8 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
     }
 
     public void processMessage(Update update) {
-        System.out.println(update);
+
         if (update.hasMessage() && update.getMessage().getText().equals("/start")) {
-            //System.out.println(update);
             chat_ID = update.getMessage().getChat().getId();
             User user = update.getMessage().getFrom();
             BotUser botlist = new BotUser();
@@ -101,14 +100,16 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
             if (user.getLastName() != null) {
                 s.append(user.getLastName());
             }
+            s.append("\n\n");
+            s.append("Your Account has been Registered Successfully\n\n");
+            s.append("To get Random Quotes send /randomquote");
             sendingMessage.setText(s.toString());
             finalizemessage(sendingMessage);
 
         } else if (update.hasMessage() && update.getMessage().getText().equals("/randomquote")) {
             chat_ID = update.getMessage().getChat().getId();
             q = generatorService.generateQuote();
-            String s = q.getQuote() + "\n              \t- " + q.getAuthor();
-            System.out.println(q.toString());
+            String s = q.getQuote() + "\n\n- " + q.getAuthor();
             SendMessage message = new SendMessage();
             message.setChatId(String.valueOf(chat_ID));
             message.setText(s);
