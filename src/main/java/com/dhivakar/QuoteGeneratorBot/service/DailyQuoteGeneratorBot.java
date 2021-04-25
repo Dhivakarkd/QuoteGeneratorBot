@@ -1,6 +1,5 @@
 package com.dhivakar.QuoteGeneratorBot.service;
 
-import com.dhivakar.QuoteGeneratorBot.config.BotConfiguration;
 import com.dhivakar.QuoteGeneratorBot.model.BotUser;
 import com.dhivakar.QuoteGeneratorBot.model.Quote;
 import lombok.SneakyThrows;
@@ -30,7 +29,7 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
     Quote q = new Quote();
 
     public DailyQuoteGeneratorBot() {
-        System.out.println("Configuration is "+BotConfiguration.getBotName());
+
     }
 
     @SneakyThrows
