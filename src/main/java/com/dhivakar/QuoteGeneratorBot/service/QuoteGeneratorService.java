@@ -23,7 +23,7 @@ public class QuoteGeneratorService {
         System.out.println("getting in Generate Quote");
 
         Response cb = ClientBuilder.newClient().target(target)
-                .register(new BasicAuthentication(apiuser,apipassword))
+               // .register(new BasicAuthentication(apiuser,apipassword))
                 .request(MediaType.APPLICATION_JSON_TYPE).get();
         String s = cb.readEntity(String.class);
         ObjectMapper mapper = new ObjectMapper();
