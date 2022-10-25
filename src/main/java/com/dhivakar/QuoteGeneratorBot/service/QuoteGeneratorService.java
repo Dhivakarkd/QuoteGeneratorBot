@@ -17,7 +17,7 @@ public class QuoteGeneratorService {
     List<BotUser> userList = new ArrayList<>();
     private final String apiuser =System.getenv("API_REQUEST_USER");
     private final String apipassword=System.getenv("API_REQUEST_PASSWORD");
-    String target = "https://quotegenerator123.herokuapp.com/randomQuote";
+    String target = "https://quotegenerator123.herokuapp.com/quote/randomQuote";
 
     public Quote generateQuote() {
         System.out.println("getting in Generate Quote");
