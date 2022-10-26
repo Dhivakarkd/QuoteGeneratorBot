@@ -1,4 +1,4 @@
-package com.dhivakar.QuoteGeneratorBot.config;
+package com.dhivakar.quotegeneratorbot.config;
 
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
-package com.dhivakar.QuoteGeneratorBot.config;
+package com.dhivakar.quotegeneratorbot.config;
 
-import com.dhivakar.QuoteGeneratorBot.service.DailyQuoteGeneratorBot;
+import com.dhivakar.quotegeneratorbot.service.DailyQuoteGeneratorBot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.TelegramBotsApi;

@@ -1,10 +1,9 @@
-package com.dhivakar.QuoteGeneratorBot.service;
+package com.dhivakar.quotegeneratorbot.service;
 
-import com.dhivakar.QuoteGeneratorBot.model.BotUser;
-import com.dhivakar.QuoteGeneratorBot.model.Quote;
+import com.dhivakar.quotegeneratorbot.model.BotUser;
+import com.dhivakar.quotegeneratorbot.model.Quote;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jboss.resteasy.client.jaxrs.internal.BasicAuthentication;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
@@ -15,15 +14,12 @@ import java.util.List;
 
 public class QuoteGeneratorService {
     List<BotUser> userList = new ArrayList<>();
-    private final String apiuser =System.getenv("API_REQUEST_USER");
-    private final String apipassword=System.getenv("API_REQUEST_PASSWORD");
     String target = "https://quotegenerator123.herokuapp.com/quote/randomQuote";
 
     public Quote generateQuote() {
         System.out.println("getting in Generate Quote");
 
         Response cb = ClientBuilder.newClient().target(target)
-               // .register(new BasicAuthentication(apiuser,apipassword))
                 .request(MediaType.APPLICATION_JSON_TYPE).get();
         String s = cb.readEntity(String.class);
         ObjectMapper mapper = new ObjectMapper();

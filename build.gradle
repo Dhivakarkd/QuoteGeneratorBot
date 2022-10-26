@@ -3,6 +3,7 @@
  */
 
 plugins {
+    id 'org.springframework.boot' version '2.7.4'
     id 'java'
     id 'maven-publish'
 }
@@ -12,16 +13,20 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2/')
     }
+    mavenCentral()
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-security:2.4.5'
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.4.5'
-    implementation 'org.projectlombok:lombok:1.18.20'
-    implementation 'org.telegram:telegrambots:5.1.1'
-    implementation 'org.jboss.resteasy:resteasy-client:4.6.0.Final'
-    implementation 'javax.ws.rs:javax.ws.rs-api:2.1'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.4.5'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.7.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.7.4'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    implementation 'org.telegram:telegrambots:6.1.0'
+    implementation 'org.jboss.resteasy:resteasy-client:6.2.1.Final'
+    implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.4'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
 group = 'com.dhivakar'
@@ -37,6 +42,3 @@ publishing {
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
