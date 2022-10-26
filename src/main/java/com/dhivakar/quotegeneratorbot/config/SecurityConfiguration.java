@@ -8,8 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
-    private final String user = System.getenv("SECURITY_USER");
-    private final String password = "{noop}"+System.getenv("SECURITY_PASSWORD");;
+    private final String user = System.getProperty("SECURITY_USER");
+    private final String password = "{noop}"+System.getProperty("SECURITY_PASSWORD");
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
