@@ -5,7 +5,6 @@
 plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'java'
-    id 'maven-publish'
 }
 
 repositories {
@@ -22,23 +21,19 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     implementation 'org.telegram:telegrambots:6.1.0'
-    implementation 'org.jboss.resteasy:resteasy-client:6.2.1.Final'
-    implementation 'javax.ws.rs:javax.ws.rs-api:2.1.1'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.4'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.5'
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
 group = 'com.dhivakar'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 description = 'QuoteGeneratorBot'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
+jar {
+    //To disable generation of plain jar
+    enabled = false
 }
 
