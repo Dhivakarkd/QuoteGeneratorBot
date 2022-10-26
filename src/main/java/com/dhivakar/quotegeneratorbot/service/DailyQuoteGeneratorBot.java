@@ -3,6 +3,7 @@ package com.dhivakar.quotegeneratorbot.service;
 import com.dhivakar.quotegeneratorbot.model.BotUser;
 import com.dhivakar.quotegeneratorbot.model.Quote;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
 
 
@@ -35,22 +37,22 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
     public void sendquote() {
 
         if (!botUserList.isEmpty()) {
-            System.out.println("Scheduled Method Called");
-            System.out.println("List Size is " + botUserList.size());
+            log.info("Scheduled Method Called");
+            log.info("List Size is " + botUserList.size());
             q = generatorService.generateQuote();
             String s = q.getQuote() + "\n\n\t\t- " + q.getAuthor();
-            System.out.println(q.toString());
+            log.info(q.toString());
             for (BotUser u : botUserList) {
                 SendMessage message = new SendMessage();
                 message.setChatId(String.valueOf(u.getChatID()));
                 message.setText(s);
-                System.out.println(message);
+                log.debug(message.toString());
                 finalizemessage(message);
 
 
             }
         } else {
-            System.out.println("User List is Empty");
+            log.info("User List is Empty");
         }
 
 
@@ -72,7 +74,7 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
     }
 
     public void finalizemessage(SendMessage message) {
-        System.out.println("Message sent");
+        log.info("Message sent");
         try {
             execute(message);
         } catch (TelegramApiException e) {
@@ -83,8 +85,10 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
     public void processMessage(Update update) {
 
         if (update.hasMessage() && update.getMessage().getText().equals("/start")) {
+
             chat_ID = update.getMessage().getChat().getId();
             User user = update.getMessage().getFrom();
+            log.info("Register : New User - {} , Chat_ID - {}",user.getLastName(),chat_ID);
             BotUser botlist = new BotUser();
             botlist.setChatID(chat_ID);
             if (!botUserList.contains(botlist)) {
@@ -104,6 +108,8 @@ public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
             finalizemessage(sendingMessage);
 
         } else if (update.hasMessage() && update.getMessage().getText().equals("/randomquote")) {
+
+            log.info("RandomQuote : Chat_ID - {}",chat_ID);
             chat_ID = update.getMessage().getChat().getId();
             q = generatorService.generateQuote();
             String s = q.getQuote() + "\n\n- " + q.getAuthor();
