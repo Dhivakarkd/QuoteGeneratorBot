@@ -1,7 +1,7 @@
-package com.dhivakar.QuoteGeneratorBot.service;
+package com.dhivakar.quotegeneratorbot.service;
 
-import com.dhivakar.QuoteGeneratorBot.model.BotUser;
-import com.dhivakar.QuoteGeneratorBot.model.Quote;
+import com.dhivakar.quotegeneratorbot.model.BotUser;
+import com.dhivakar.quotegeneratorbot.model.Quote;
 import lombok.SneakyThrows;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -18,19 +18,12 @@ import java.util.List;
 public class DailyQuoteGeneratorBot extends TelegramLongPollingBot {
 
 
-
-
-
     static List<BotUser> botUserList = new ArrayList<>();
     private final String botName = System.getenv("BOT_NAME");
     private final String bottoken = System.getenv("BOT_TOKEN");
     public long chat_ID;
     QuoteGeneratorService generatorService = new QuoteGeneratorService();
     Quote q = new Quote();
-
-    public DailyQuoteGeneratorBot() {
-
-    }
 
     @SneakyThrows
     @Override
