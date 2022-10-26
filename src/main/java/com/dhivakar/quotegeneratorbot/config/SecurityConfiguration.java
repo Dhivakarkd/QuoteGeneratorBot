@@ -1,5 +1,6 @@
 package com.dhivakar.quotegeneratorbot.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -7,9 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
-    private final String user = System.getProperty("SECURITY_USER");
-    private final String password = "{noop}"+System.getProperty("SECURITY_PASSWORD");
+    @Value( "${api.user}" )
+    private  String user ;
+    @Value( "${api.pass}" )
+    private  String password ;
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
