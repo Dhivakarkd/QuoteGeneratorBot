@@ -14,15 +14,13 @@ import javax.annotation.PostConstruct;
 public class TelegramBotConfig {
 
     @PostConstruct
-    public void start() {
-        try {
-            log.info("Instantiate Telegram Bots API...");
-            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+    public void start() throws TelegramApiException {
 
-            log.info("Register Telegram Bots API...");
-            botsApi.registerBot(new DailyQuoteGeneratorBot());
-        } catch (TelegramApiException e) {
-            log.error("Exception instantiate Telegram Bot!", e);
-        }
+        log.info("Instantiate Telegram Bots API...");
+        TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+
+        log.info("Register Telegram Bots API...");
+        botsApi.registerBot(new DailyQuoteGeneratorBot());
+
     }
 }
