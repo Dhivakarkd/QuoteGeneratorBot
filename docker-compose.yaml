@@ -1,0 +1,13 @@
+version: '2'
+services:
+  backend:
+    container_name: quotebot
+    restart: unless-stopped
+    build: .
+    ports:
+      - "9092:9092"
+    environment:
+      - BOT_NAME=$BOT_NAME
+      - BOT_TOKEN=${BOT_TOKEN}
+      - SECURITY_USER=${SECURITY_USER}
+      - SECURITY_PASSWORD=${SECURITY_PASSWORD}
