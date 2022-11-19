@@ -1,7 +1,8 @@
 version: '2'
 services:
   backend:
-    container_name: quotebot
+    container_name: quote_bot
+    image: quote_bot
     restart: unless-stopped
     build: .
     ports:
@@ -11,3 +12,4 @@ services:
       - BOT_TOKEN=${BOT_TOKEN}
       - SECURITY_USER=${SECURITY_USER}
       - SECURITY_PASSWORD=${SECURITY_PASSWORD}
+      - QUOTES_API_URL=${QUOTES_API_URL}
