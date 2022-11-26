@@ -58,14 +58,14 @@ public class QuoteBotHandler extends TelegramLongPollingBot {
 
     public void processMessage(Update update) {
 
-        if (update.hasMessage() && update.getMessage().getText().equals(UserCommand.START.getCommand())) {
+        if (update.hasMessage() && update.getMessage().getText().equalsIgnoreCase(UserCommand.START.getCommand())) {
 
             String chatId = String.valueOf(update.getMessage().getChat().getId());
             StartEvent s = StartEvent.builder().chatID(chatId).userCommand(UserCommand.START).update(update).build();
             log.info(PUBLISHED_EVENT_LOG, UserCommand.START);
             publisher.publishEvent(s);
 
-        } else if (update.hasMessage() && update.getMessage().getText().equals(UserCommand.RANDOM_QUOTE.getCommand())) {
+        } else if (update.hasMessage() && update.getMessage().getText().equalsIgnoreCase(UserCommand.RANDOM_QUOTE.getCommand())) {
 
 
             String chatId = String.valueOf(update.getMessage().getChat().getId());
@@ -74,7 +74,7 @@ public class QuoteBotHandler extends TelegramLongPollingBot {
             publisher.publishEvent(randomQuoteEvent);
 
 
-        } else if (update.hasMessage() && update.getMessage().getText().equals(UserCommand.DISABLE_QUOTE_SCHEDULING.getCommand())) {
+        } else if (update.hasMessage() && update.getMessage().getText().equalsIgnoreCase(UserCommand.DISABLE_QUOTE_SCHEDULING.getCommand())) {
 
             String chatId = String.valueOf(update.getMessage().getChat().getId());
             DisableUserEvent disableUserEvent = DisableUserEvent.builder().chatID(chatId).userCommand(UserCommand.DISABLE_QUOTE_SCHEDULING).update(update).build();
