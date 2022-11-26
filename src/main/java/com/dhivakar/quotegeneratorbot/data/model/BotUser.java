@@ -17,7 +17,7 @@ public class BotUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "chat_id")
-    private long chatID;
+    private String chatID;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")

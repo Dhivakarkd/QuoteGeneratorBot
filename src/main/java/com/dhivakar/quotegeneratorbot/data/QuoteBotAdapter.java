@@ -2,6 +2,7 @@ package com.dhivakar.quotegeneratorbot.data;
 
 import com.dhivakar.quotegeneratorbot.data.model.BotUser;
 import com.dhivakar.quotegeneratorbot.data.model.UserStatus;
+import com.dhivakar.quotegeneratorbot.data.model.UserType;
 import com.dhivakar.quotegeneratorbot.data.repo.QuoteBotUserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +23,31 @@ public class QuoteBotAdapter {
         this.quoteBotUserRepo = quoteBotUserRepo;
     }
 
-    public void addUser(User user, long chatId) {
+    public UserType addUser(User latestUser, String chatId) {
 
-        BotUser botUser = BotUser.builder()
-                .chatID(chatId)
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .status(UserStatus.ACTIVE)
-                .build();
+        Optional<BotUser> userFromDB = quoteBotUserRepo.findByChatID(chatId);
 
-        quoteBotUserRepo.save(botUser);
+        if (userFromDB.isPresent()) {
+            BotUser dbUser = userFromDB.get();
+            dbUser.setStatus(UserStatus.ACTIVE);
+            quoteBotUserRepo.save(dbUser);
+            log.info("Existing User ID : {} updated to Active Status", chatId);
 
-        log.info("User ID : {} Saved to DB Successfully", chatId);
+            return UserType.ALREADY_EXISTS;
+        } else {
 
+            BotUser botUser = BotUser.builder()
+                    .chatID(chatId)
+                    .firstName(latestUser.getFirstName())
+                    .lastName(latestUser.getLastName())
+                    .status(UserStatus.ACTIVE)
+                    .build();
+
+            quoteBotUserRepo.save(botUser);
+
+            log.info("New User ID : {} Saved to DB ", chatId);
+            return UserType.NEW;
+        }
     }
 
     public List<BotUser> getAllActiveUserList() {
@@ -43,9 +56,9 @@ public class QuoteBotAdapter {
 
     }
 
-    public boolean disableActiveUser(long chatId) {
+    public boolean disableActiveUser(String chatId) {
 
-        Optional<BotUser> user = quoteBotUserRepo.findByChatId(chatId);
+        Optional<BotUser> user = quoteBotUserRepo.findByChatID(chatId);
 
         if (user.isPresent() && user.get().getStatus() == UserStatus.ACTIVE) {
             BotUser userFromDb = user.get();

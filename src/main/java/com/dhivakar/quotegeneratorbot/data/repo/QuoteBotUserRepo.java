@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface QuoteBotUserRepo extends CrudRepository<BotUser,Integer> {
 
     List<BotUser> findByStatus(UserStatus status);
-    Optional<BotUser> findByChatId(long chatId);
+    Optional<BotUser> findByChatID(String chatId);
 }
