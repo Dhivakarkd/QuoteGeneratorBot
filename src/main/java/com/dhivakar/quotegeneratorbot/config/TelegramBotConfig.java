@@ -2,6 +2,7 @@ package com.dhivakar.quotegeneratorbot.config;
 
 import com.dhivakar.quotegeneratorbot.service.DailyQuoteGeneratorBot;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -13,6 +14,9 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class TelegramBotConfig {
 
+    @Autowired
+    private DailyQuoteGeneratorBot dailyQuoteGeneratorBot;
+
     @PostConstruct
     public void start() throws TelegramApiException {
 
@@ -20,7 +24,7 @@ public class TelegramBotConfig {
         TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
 
         log.info("Register Telegram Bots API...");
-        botsApi.registerBot(new DailyQuoteGeneratorBot());
+        botsApi.registerBot(dailyQuoteGeneratorBot);
 
     }
 }
