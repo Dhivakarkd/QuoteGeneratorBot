@@ -3,6 +3,8 @@ services:
   backend:
     container_name: quote_bot
     image: quote_bot
+    mem_limit: 512m
+    mem_reservation: 400M
     restart: unless-stopped
     build: .
     ports:
