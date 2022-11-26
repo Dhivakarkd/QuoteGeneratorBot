@@ -14,13 +14,11 @@ public class BotConfiguration implements EnvironmentAware {
 
 
     public static String getBotName() {
-        String s = environment.getProperty("BOT_NAME");
-        return s;
+        return environment.getProperty("BOT_NAME");
     }
 
     public static String getBottoken() {
-        String s = environment.getProperty("BOT_TOKEN");
-        return s;
+        return environment.getProperty("BOT_TOKEN");
     }
 
     @Override
