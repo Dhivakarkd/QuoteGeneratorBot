@@ -3,14 +3,14 @@ services:
   backend:
     container_name: quote_bot
     image: quote_bot
-    mem_limit: 512m
-    mem_reservation: 400M
+    mem_limit: 200m
+    mem_reservation: 180M
     restart: unless-stopped
     build: .
     ports:
       - "9092:9092"
     environment:
-      - JAVA_OPTS=-Xmx350m
+      - JAVA_OPTS=-Xmx180m
       - BOT_NAME=$BOT_NAME
       - BOT_TOKEN=${BOT_TOKEN}
       - SECURITY_USER=${SECURITY_USER}
