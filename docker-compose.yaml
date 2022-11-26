@@ -10,6 +10,7 @@ services:
     ports:
       - "9092:9092"
     environment:
+      - JAVA_OPTS=-Xmx350m
       - BOT_NAME=$BOT_NAME
       - BOT_TOKEN=${BOT_TOKEN}
       - SECURITY_USER=${SECURITY_USER}
