@@ -37,9 +37,9 @@ public enum UserCommand {
 
     public static UserCommand getAPIEnumFromValue(String value){
 
-        String trimmedAPIvalue = value.trim().replace("@freshmotivationbot","");
+        String trimmedAPIValue = value.replace("@freshmotivationbot","");
 
-        return API_LOOKUP_MAP.get(trimmedAPIvalue);
+        return API_LOOKUP_MAP.get(trimmedAPIValue);
 
     }
 
