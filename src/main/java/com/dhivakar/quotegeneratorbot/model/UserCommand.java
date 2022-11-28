@@ -39,7 +39,7 @@ public enum UserCommand {
 
         String trimmedAPIvalue = value.trim().replace("@freshmotivationbot","");
 
-        return getAPIEnumFromValue(trimmedAPIvalue);
+        return API_LOOKUP_MAP.get(trimmedAPIvalue);
 
     }
 
