@@ -10,8 +10,8 @@ import java.util.Map;
 @Getter
 public enum UserCommand {
     START("/start", "Start Receiving Daily Random Quotes"),
-    RANDOM_QUOTE("/randomQuote", "Get Random Quotes"),
-    DISABLE_QUOTE_SCHEDULING("/disableQuote", "Stop Receiving Daily Random Quotes"),
+    RANDOM_QUOTE("/randomquote", "Get Random Quotes"),
+    DISABLE_QUOTE_SCHEDULING("/disablequote", "Stop Receiving Daily Random Quotes"),
     DEFAULT("DEFAULT", "Default Invalid Command");
 
     private static final Map<String, UserCommand> API_LOOKUP_MAP = initAPILookUpMap();
@@ -38,8 +38,6 @@ public enum UserCommand {
     public static UserCommand getAPIEnumFromValue(String value){
 
         String trimmedAPIValue = value.replace("@freshmotivationbot","");
-
-        System.out.println("Trimmed Value is "+trimmedAPIValue);
 
         UserCommand userCommand = API_LOOKUP_MAP.get(trimmedAPIValue);
 
