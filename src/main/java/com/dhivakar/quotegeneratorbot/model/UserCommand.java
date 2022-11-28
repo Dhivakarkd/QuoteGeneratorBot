@@ -4,7 +4,8 @@ import com.dhivakar.quotegeneratorbot.event.utils.BotUtil;
 import lombok.Getter;
 
 import java.util.Arrays;
-import java.util.StringJoiner;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 public enum UserCommand {
@@ -12,6 +13,8 @@ public enum UserCommand {
     RANDOM_QUOTE("/randomQuote", "Get Random Quotes"),
     DISABLE_QUOTE_SCHEDULING("/disableQuote", "Stop Receiving Daily Random Quotes"),
     DEFAULT("DEFAULT", "Default Invalid Command");
+
+    private static final Map<String, UserCommand> API_LOOKUP_MAP = initAPILookUpMap();
     private final String command;
     private final String description;
 
@@ -20,13 +23,33 @@ public enum UserCommand {
         this.description = description;
     }
 
-    public static String getAllAvailableCommands(){
+    private static Map<String, UserCommand> initAPILookUpMap() {
 
-        StringBuilder builder= new StringBuilder();
+        Map<String, UserCommand> apiLookUpMap = new HashMap<>();
 
-        UserCommand[] commands = Arrays.copyOf(UserCommand.values(), UserCommand.values().length-1);
+        for (UserCommand userCommand : UserCommand.values()) {
+            apiLookUpMap.put(userCommand.getCommand(), userCommand);
+        }
 
-        Arrays.stream(commands).forEach(i-> builder.append(i.getCommand()).append(" : ").append(i.getDescription()).append(BotUtil.NEXT_LINE));
+        return apiLookUpMap;
+
+    }
+
+    public static UserCommand getAPIEnumFromValue(String value){
+
+        String trimmedAPIvalue = value.trim().replace("@freshmotivationbot","");
+
+        return getAPIEnumFromValue(trimmedAPIvalue);
+
+    }
+
+    public static String getAllAvailableCommands() {
+
+        StringBuilder builder = new StringBuilder();
+
+        UserCommand[] commands = Arrays.copyOf(UserCommand.values(), UserCommand.values().length - 1);
+
+        Arrays.stream(commands).forEach(i -> builder.append(i.getCommand()).append(" : ").append(i.getDescription()).append(BotUtil.NEXT_LINE));
 
         return builder.toString();
     }
