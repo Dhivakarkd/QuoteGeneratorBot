@@ -21,7 +21,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Slf4j
 public class QuoteBotHandler extends TelegramLongPollingBot {
 
-    public static final String PUBLISHED_EVENT_LOG = "Published {} event";
+    public static final String PUBLISHED_EVENT_LOG = "Published {} event for Command {}";
     private static final String BOT_NAME = System.getenv("BOT_NAME");
     private static final String BOT_TOKEN = System.getenv("BOT_TOKEN");
     @Autowired
@@ -58,35 +58,44 @@ public class QuoteBotHandler extends TelegramLongPollingBot {
 
     public void processMessage(Update update) {
 
-        if (update.hasMessage() && update.getMessage().getText().equalsIgnoreCase(UserCommand.START.getCommand())) {
+        if (update.hasMessage() && update.getMessage().isCommand()) {
 
-            String chatId = String.valueOf(update.getMessage().getChat().getId());
-            StartEvent s = StartEvent.builder().chatID(chatId).userCommand(UserCommand.START).update(update).build();
-            log.info(PUBLISHED_EVENT_LOG, UserCommand.START);
-            publisher.publishEvent(s);
-
-        } else if (update.hasMessage() && update.getMessage().getText().equalsIgnoreCase(UserCommand.RANDOM_QUOTE.getCommand())) {
+            String command = update.getMessage().getText();
 
 
-            String chatId = String.valueOf(update.getMessage().getChat().getId());
-            RandomQuoteEvent randomQuoteEvent = RandomQuoteEvent.builder().chatID(chatId).userCommand(UserCommand.RANDOM_QUOTE).update(update).build();
-            log.info(PUBLISHED_EVENT_LOG, UserCommand.RANDOM_QUOTE);
-            publisher.publishEvent(randomQuoteEvent);
+            if (command.equalsIgnoreCase(UserCommand.START.getCommand())) {
+
+                String chatId = String.valueOf(update.getMessage().getChat().getId());
+                StartEvent s = StartEvent.builder().chatID(chatId).userCommand(UserCommand.START).update(update).build();
+                log.info(PUBLISHED_EVENT_LOG, UserCommand.START,command);
+                publisher.publishEvent(s);
+
+            } else if (command.equalsIgnoreCase(UserCommand.RANDOM_QUOTE.getCommand())) {
 
 
-        } else if (update.hasMessage() && update.getMessage().getText().equalsIgnoreCase(UserCommand.DISABLE_QUOTE_SCHEDULING.getCommand())) {
+                String chatId = String.valueOf(update.getMessage().getChat().getId());
+                RandomQuoteEvent randomQuoteEvent = RandomQuoteEvent.builder().chatID(chatId).userCommand(UserCommand.RANDOM_QUOTE).update(update).build();
+                log.info(PUBLISHED_EVENT_LOG, UserCommand.RANDOM_QUOTE,command);
+                publisher.publishEvent(randomQuoteEvent);
 
-            String chatId = String.valueOf(update.getMessage().getChat().getId());
-            DisableUserEvent disableUserEvent = DisableUserEvent.builder().chatID(chatId).userCommand(UserCommand.DISABLE_QUOTE_SCHEDULING).update(update).build();
-            log.info(PUBLISHED_EVENT_LOG, UserCommand.DISABLE_QUOTE_SCHEDULING);
-            publisher.publishEvent(disableUserEvent);
+
+            } else if (command.equalsIgnoreCase(UserCommand.DISABLE_QUOTE_SCHEDULING.getCommand())) {
+
+                String chatId = String.valueOf(update.getMessage().getChat().getId());
+                DisableUserEvent disableUserEvent = DisableUserEvent.builder().chatID(chatId).userCommand(UserCommand.DISABLE_QUOTE_SCHEDULING).update(update).build();
+                log.info(PUBLISHED_EVENT_LOG, UserCommand.DISABLE_QUOTE_SCHEDULING,command);
+                publisher.publishEvent(disableUserEvent);
+
+            } else {
+
+                String chatId = String.valueOf(update.getMessage().getChat().getId());
+                DefaultEvent defaultEvent = DefaultEvent.builder().chatID(chatId).userCommand(UserCommand.DEFAULT).update(update).build();
+                log.info(PUBLISHED_EVENT_LOG, UserCommand.DEFAULT,command);
+                publisher.publishEvent(defaultEvent);
+            }
 
         } else {
-
-            String chatId = String.valueOf(update.getMessage().getChat().getId());
-            DefaultEvent defaultEvent = DefaultEvent.builder().chatID(chatId).userCommand(UserCommand.DEFAULT).update(update).build();
-            log.info(PUBLISHED_EVENT_LOG, UserCommand.DEFAULT);
-            publisher.publishEvent(defaultEvent);
+            log.warn("Received Text Other than Command : {} ",update.getMessage().getText());
         }
 
 
