@@ -1,10 +1,7 @@
 package com.dhivakar.quotegeneratorbot.service;
 
 import com.dhivakar.quotegeneratorbot.data.QuoteBotAdapter;
-import com.dhivakar.quotegeneratorbot.event.model.DefaultEvent;
-import com.dhivakar.quotegeneratorbot.event.model.DisableUserEvent;
-import com.dhivakar.quotegeneratorbot.event.model.RandomQuoteEvent;
-import com.dhivakar.quotegeneratorbot.event.model.StartEvent;
+import com.dhivakar.quotegeneratorbot.event.model.*;
 import com.dhivakar.quotegeneratorbot.model.UserCommand;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +11,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -56,6 +54,16 @@ public class QuoteBotHandler extends TelegramLongPollingBot {
         }
     }
 
+    @EventListener(SendPhoto.class)
+    public void sendMessageToUsers(SendPhoto message) {
+        log.info("Photo sent");
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            log.error("Error When sending photo to Telegram", e);
+        }
+    }
+
     public void processMessage(Update update) {
 
         if (update.hasMessage() && update.getMessage().isCommand()) {
@@ -79,6 +87,13 @@ public class QuoteBotHandler extends TelegramLongPollingBot {
                     RandomQuoteEvent randomQuoteEvent = RandomQuoteEvent.builder().chatID(chatId).userCommand(UserCommand.RANDOM_QUOTE).update(update).build();
                     log.info(PUBLISHED_EVENT_LOG, UserCommand.RANDOM_QUOTE, command);
                     publisher.publishEvent(randomQuoteEvent);
+                    break;
+
+                case RANDOM_IMAGE:
+                    chatId = String.valueOf(update.getMessage().getChat().getId());
+                    RandomImageEvent randomImageEvent = RandomImageEvent.builder().chatID(chatId).userCommand(UserCommand.RANDOM_QUOTE).update(update).build();
+                    log.info(PUBLISHED_EVENT_LOG, UserCommand.RANDOM_IMAGE, command);
+                    publisher.publishEvent(randomImageEvent);
                     break;
 
                 case DISABLE_QUOTE_SCHEDULING:
