@@ -1,8 +1,8 @@
 package com.dhivakar.quotegeneratorbot.service;
 
-import com.dhivakar.quotegeneratorbot.data.QuoteBotAdapter;
+import com.dhivakar.quotegeneratorbot.data.adapter.QuoteBotAdapter;
 import com.dhivakar.quotegeneratorbot.event.model.*;
-import com.dhivakar.quotegeneratorbot.model.UserCommand;
+import com.dhivakar.quotegeneratorbot.model.QuoteCommand;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,43 +70,43 @@ public class QuoteBotHandler extends TelegramLongPollingBot {
 
             String command = update.getMessage().getText();
 
-            UserCommand userCommand = UserCommand.getAPIEnumFromValue(command);
+            QuoteCommand quoteCommand = QuoteCommand.getAPIEnumFromValue(command);
 
             String chatId;
-            switch (userCommand) {
+            switch (quoteCommand) {
 
                 case START:
                     chatId = String.valueOf(update.getMessage().getChat().getId());
-                    StartEvent s = StartEvent.builder().chatID(chatId).userCommand(UserCommand.START).update(update).build();
-                    log.info(PUBLISHED_EVENT_LOG, UserCommand.START, command);
+                    StartEvent s = StartEvent.builder().chatID(chatId).quoteCommand(QuoteCommand.START).update(update).build();
+                    log.info(PUBLISHED_EVENT_LOG, QuoteCommand.START, command);
                     publisher.publishEvent(s);
                     break;
 
                 case RANDOM_QUOTE:
                     chatId = String.valueOf(update.getMessage().getChat().getId());
-                    RandomQuoteEvent randomQuoteEvent = RandomQuoteEvent.builder().chatID(chatId).userCommand(UserCommand.RANDOM_QUOTE).update(update).build();
-                    log.info(PUBLISHED_EVENT_LOG, UserCommand.RANDOM_QUOTE, command);
+                    RandomQuoteEvent randomQuoteEvent = RandomQuoteEvent.builder().chatID(chatId).quoteCommand(QuoteCommand.RANDOM_QUOTE).update(update).build();
+                    log.info(PUBLISHED_EVENT_LOG, QuoteCommand.RANDOM_QUOTE, command);
                     publisher.publishEvent(randomQuoteEvent);
                     break;
 
                 case RANDOM_IMAGE:
                     chatId = String.valueOf(update.getMessage().getChat().getId());
-                    RandomImageEvent randomImageEvent = RandomImageEvent.builder().chatID(chatId).userCommand(UserCommand.RANDOM_QUOTE).update(update).build();
-                    log.info(PUBLISHED_EVENT_LOG, UserCommand.RANDOM_IMAGE, command);
+                    RandomImageEvent randomImageEvent = RandomImageEvent.builder().chatID(chatId).quoteCommand(QuoteCommand.RANDOM_QUOTE).update(update).build();
+                    log.info(PUBLISHED_EVENT_LOG, QuoteCommand.RANDOM_IMAGE, command);
                     publisher.publishEvent(randomImageEvent);
                     break;
 
                 case DISABLE_QUOTE_SCHEDULING:
                     chatId = String.valueOf(update.getMessage().getChat().getId());
-                    DisableUserEvent disableUserEvent = DisableUserEvent.builder().chatID(chatId).userCommand(UserCommand.DISABLE_QUOTE_SCHEDULING).update(update).build();
-                    log.info(PUBLISHED_EVENT_LOG, UserCommand.DISABLE_QUOTE_SCHEDULING, command);
+                    DisableUserEvent disableUserEvent = DisableUserEvent.builder().chatID(chatId).quoteCommand(QuoteCommand.DISABLE_QUOTE_SCHEDULING).update(update).build();
+                    log.info(PUBLISHED_EVENT_LOG, QuoteCommand.DISABLE_QUOTE_SCHEDULING, command);
                     publisher.publishEvent(disableUserEvent);
                     break;
 
                 case DEFAULT:
                     chatId = String.valueOf(update.getMessage().getChat().getId());
-                    DefaultEvent defaultEvent = DefaultEvent.builder().chatID(chatId).userCommand(UserCommand.DEFAULT).update(update).build();
-                    log.info(PUBLISHED_EVENT_LOG, UserCommand.DEFAULT, command);
+                    DefaultEvent defaultEvent = DefaultEvent.builder().chatID(chatId).quoteCommand(QuoteCommand.DEFAULT).update(update).build();
+                    log.info(PUBLISHED_EVENT_LOG, QuoteCommand.DEFAULT, command);
                     publisher.publishEvent(defaultEvent);
                     break;
 

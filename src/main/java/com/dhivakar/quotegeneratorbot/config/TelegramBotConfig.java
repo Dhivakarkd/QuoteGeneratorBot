@@ -1,5 +1,6 @@
 package com.dhivakar.quotegeneratorbot.config;
 
+import com.dhivakar.quotegeneratorbot.service.QuestionBotHandler;
 import com.dhivakar.quotegeneratorbot.service.QuoteBotHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class TelegramBotConfig {
     @Autowired
     private QuoteBotHandler quoteBotHandler;
 
+    @Autowired
+    private QuestionBotHandler questionBotHandler;
+
     @PostConstruct
     public void start() throws TelegramApiException {
 
@@ -25,6 +29,7 @@ public class TelegramBotConfig {
 
         log.info("Register Telegram Bots API...");
         botsApi.registerBot(quoteBotHandler);
+        botsApi.registerBot(questionBotHandler);
 
     }
 }

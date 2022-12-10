@@ -1,6 +1,6 @@
 package com.dhivakar.quotegeneratorbot.event.processor;
 
-import com.dhivakar.quotegeneratorbot.data.QuoteBotAdapter;
+import com.dhivakar.quotegeneratorbot.data.adapter.QuoteBotAdapter;
 import com.dhivakar.quotegeneratorbot.event.model.DisableUserEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

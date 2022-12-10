@@ -1,7 +1,7 @@
 package com.dhivakar.quotegeneratorbot.event.processor;
 
 
-import com.dhivakar.quotegeneratorbot.data.QuoteBotAdapter;
+import com.dhivakar.quotegeneratorbot.data.adapter.QuoteBotAdapter;
 import com.dhivakar.quotegeneratorbot.data.model.UserType;
 import com.dhivakar.quotegeneratorbot.event.model.StartEvent;
 import com.dhivakar.quotegeneratorbot.event.utils.BotUtil;
