@@ -14,9 +14,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Slf4j
 @Component
 public class QuestionBotHandler extends TelegramLongPollingBot {
+    public static final String PUBLISHED_EVENT_LOG = "Published {} event for Command {}";
     private static final String BOT_NAME = System.getenv("QUES_BOT_NAME");
     private static final String BOT_TOKEN = System.getenv("QUES_BOT_TOKEN");
-    public static final String PUBLISHED_EVENT_LOG = "Published {} event for Command {}";
     @Autowired
     private QuestionAdapter adapter;
 
@@ -45,6 +45,9 @@ public class QuestionBotHandler extends TelegramLongPollingBot {
             } else if (questionHelper.isQuesCommand(command)) {
                 log.info(PUBLISHED_EVENT_LOG, "Question", command);
                 publishMessage(questionHelper.generateQuestionMessage(update));
+            } else if (questionHelper.isNHIECommand(command)) {
+                log.info(PUBLISHED_EVENT_LOG, "NHIE", command);
+                publishMessage(questionHelper.generateNHIEMessage(update.getMessage().getChatId()));
             } else {
                 log.info("Received a Command : {}", command);
             }
