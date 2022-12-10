@@ -30,4 +30,8 @@ public class QuestionAdapter {
         return questionRepo.getDeepQuestion();
     }
 
+    public QuestionDO getNHIEQuestion(){
+        return questionRepo.getNHIEQuestion();
+    }
+
 }

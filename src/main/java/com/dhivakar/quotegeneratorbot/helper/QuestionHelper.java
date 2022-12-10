@@ -27,6 +27,9 @@ public class QuestionHelper {
     private static final String START_COMMAND_ATTR = "/start@Helpmychatbot";
     private static final String QUES_COMMAND = "/question";
     private static final String QUES_COMMAND_ATTR = "/question@Helpmychatbot";
+
+    private static final String NEVER_HAVE_I_COMMAND = "/neverhaveiever";
+    private static final String NEVER_HAVE_I_ATTR = "/neverhaveiever@Helpmychatbot";
     private final QuestionAdapter questionAdapter;
 
     public SendMessage generateSendMessage(Update update) {
@@ -36,7 +39,8 @@ public class QuestionHelper {
         String replyText = "Welcome " + lastName + "\uD83D\uDC4B" + BotUtil.NEXT_LINE +
                 "If you are struggling to come up with questions to start/continue a conversation" + BotUtil.NEXT_LINE +
                 "We have list of questions to help you" + "\uD83D\uDCAC" + BotUtil.NEXT_LINE +
-                "Send " + QUES_COMMAND + " to get some random questions as per your request \uD83D\uDCE7";
+                "Send " + QUES_COMMAND + " to get some random questions as per your request \uD83D\uDCE7" + BotUtil.NEXT_LINE +
+                "Send " + NEVER_HAVE_I_COMMAND + " to get Never Have I Ever Questions \uD83E\uDD37\uD83C\uDFFB";
 
 
         return SendMessage.builder()
@@ -53,6 +57,17 @@ public class QuestionHelper {
                 .chatId(update.getMessage().getChatId())
                 .text("Select Question Type ")
                 .replyMarkup(getInlineKeyboardMarkup())
+                .build();
+
+    }
+
+    public SendMessage generateNHIEMessage(long chatID) {
+
+        String question = questionAdapter.getNHIEQuestion().getQuestion();
+
+        return SendMessage.builder()
+                .chatId(chatID)
+                .text(question)
                 .build();
 
     }
@@ -75,7 +90,7 @@ public class QuestionHelper {
         } else if (CommonUtil.WEIRD_CALL_BACK.equals(callBackReply)) {
             return questionAdapter.getWeirdQuestion().getQuestion();
         } else {
-            return questionAdapter.getWeirdQuestion().getQuestion();
+            return questionAdapter.getFunnyQuestion().getQuestion();
         }
 
 
@@ -102,6 +117,9 @@ public class QuestionHelper {
         return command.equalsIgnoreCase(START_COMMAND) || command.equalsIgnoreCase(START_COMMAND_ATTR);
     }
 
+    public boolean isNHIECommand(String command) {
+        return command.equalsIgnoreCase(NEVER_HAVE_I_COMMAND) || command.equalsIgnoreCase(NEVER_HAVE_I_ATTR);
+    }
 
     private ReplyKeyboardMarkup getReplyKeyboardMarkup() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();

@@ -14,4 +14,7 @@ public interface QuestionRepo extends CrudRepository<QuestionDO, Integer> {
 
     @Query(value = "SELECT * FROM question_meta WHERE category = 'DEEP_MEANING' ORDER BY RANDOM() LIMIT 1;", nativeQuery = true)
     QuestionDO getDeepQuestion();
+
+    @Query(value = "SELECT * FROM question_meta WHERE category = 'NVR_HV_I_EVE' ORDER BY RANDOM() LIMIT 1;", nativeQuery = true)
+    QuestionDO getNHIEQuestion();
 }
