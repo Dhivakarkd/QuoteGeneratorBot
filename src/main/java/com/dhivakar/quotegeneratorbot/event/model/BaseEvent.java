@@ -1,11 +1,10 @@
 package com.dhivakar.quotegeneratorbot.event.model;
 
 import com.dhivakar.quotegeneratorbot.event.utils.BotUtil;
-import com.dhivakar.quotegeneratorbot.model.UserCommand;
+import com.dhivakar.quotegeneratorbot.model.QuoteCommand;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Data
@@ -14,7 +13,7 @@ public class BaseEvent {
 
     private String chatID;
     private Update update;
-    private UserCommand userCommand;
+    private QuoteCommand quoteCommand;
 
     protected SendMessage defaultMessage(String messageText) {
         SendMessage sendingMessage = new SendMessage();

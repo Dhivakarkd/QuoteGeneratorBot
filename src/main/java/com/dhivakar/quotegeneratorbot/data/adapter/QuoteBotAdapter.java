@@ -1,4 +1,4 @@
-package com.dhivakar.quotegeneratorbot.data;
+package com.dhivakar.quotegeneratorbot.data.adapter;
 
 import com.dhivakar.quotegeneratorbot.data.model.BotUser;
 import com.dhivakar.quotegeneratorbot.data.model.UserStatus;

@@ -17,8 +17,16 @@ public class BotConfiguration implements EnvironmentAware {
         return environment.getProperty("BOT_NAME");
     }
 
-    public static String getBottoken() {
+    public static String getBotToken() {
         return environment.getProperty("BOT_TOKEN");
+    }
+
+    public static String getQuestionBotName() {
+        return environment.getProperty("QUES_BOT_NAME");
+    }
+
+    public static String getQuestionBotToken() {
+        return environment.getProperty("QUES_BOT_TOKEN");
     }
 
     @Override

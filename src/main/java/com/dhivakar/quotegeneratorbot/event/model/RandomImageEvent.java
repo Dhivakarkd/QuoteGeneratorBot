@@ -1,6 +1,6 @@
 package com.dhivakar.quotegeneratorbot.event.model;
 
-import com.dhivakar.quotegeneratorbot.model.UserCommand;
+import com.dhivakar.quotegeneratorbot.model.QuoteCommand;
 import lombok.Builder;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
@@ -11,8 +11,8 @@ import java.io.InputStream;
 public class RandomImageEvent extends BaseEvent {
 
     @Builder
-    public RandomImageEvent(String chatID, Update update, UserCommand userCommand) {
-        super(chatID, update, userCommand);
+    public RandomImageEvent(String chatID, Update update, QuoteCommand quoteCommand) {
+        super(chatID, update, quoteCommand);
     }
 
     public SendPhoto defaultMessage(InputStream image) {

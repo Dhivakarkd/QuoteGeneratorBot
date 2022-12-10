@@ -1,6 +1,6 @@
 package com.dhivakar.quotegeneratorbot.service;
 
-import com.dhivakar.quotegeneratorbot.data.QuoteBotAdapter;
+import com.dhivakar.quotegeneratorbot.data.adapter.QuoteBotAdapter;
 import com.dhivakar.quotegeneratorbot.data.model.BotUser;
 import com.dhivakar.quotegeneratorbot.rest.client.QuoteGeneratorClient;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class DailyQuoteScheduler {
         List<BotUser> botUserList = botAdapter.getAllActiveUserList();
 
         if (!botUserList.isEmpty()) {
-            log.info("Sending Daily Quote to {} Active Users",botUserList.size());
+            log.info("Sending Daily Quote to {} Active Users", botUserList.size());
 
             for (BotUser u : botUserList) {
                 SendMessage message = new SendMessage();
