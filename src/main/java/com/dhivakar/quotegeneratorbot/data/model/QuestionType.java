@@ -4,5 +4,5 @@ import lombok.Data;
 
 public enum QuestionType {
 
-    FUNNY, WEIRD, CREATIVE
+    FUNNY, WEIRD, CREATIVE, DEEP_MEANING
 }

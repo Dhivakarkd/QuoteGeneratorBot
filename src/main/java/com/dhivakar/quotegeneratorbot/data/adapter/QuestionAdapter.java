@@ -17,4 +17,17 @@ public class QuestionAdapter {
         return questionRepo.findById(1).get();
     }
 
+
+    public QuestionDO getFunnyQuestion() {
+        return questionRepo.getRandomFunnyQuestion();
+    }
+
+    public QuestionDO getWeirdQuestion() {
+        return questionRepo.getRandomWeirdQuestion();
+    }
+
+    public QuestionDO getDeepQuestion() {
+        return questionRepo.getDeepQuestion();
+    }
+
 }
