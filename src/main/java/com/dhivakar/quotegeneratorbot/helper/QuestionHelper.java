@@ -28,6 +28,9 @@ public class QuestionHelper {
     private static final String QUES_COMMAND = "/question";
     private static final String QUES_COMMAND_ATTR = "/question@Helpmychatbot";
 
+    private static final String SILLY_COMMAND = "/dontaskit";
+    private static final String SILLY_COMMAND_ATTR = "/dontaskit@Helpmychatbot";
+
     private static final String NEVER_HAVE_I_COMMAND = "/neverhaveiever";
     private static final String NEVER_HAVE_I_ATTR = "/neverhaveiever@Helpmychatbot";
     private final QuestionAdapter questionAdapter;
@@ -64,6 +67,17 @@ public class QuestionHelper {
     public SendMessage generateNHIEMessage(long chatID) {
 
         String question = questionAdapter.getNHIEQuestion().getQuestion();
+
+        return SendMessage.builder()
+                .chatId(chatID)
+                .text(question)
+                .build();
+
+    }
+
+    public SendMessage generateSillyMessage(long chatID) {
+
+        String question = questionAdapter.getSillyQuestion().getQuestion();
 
         return SendMessage.builder()
                 .chatId(chatID)
@@ -119,6 +133,10 @@ public class QuestionHelper {
 
     public boolean isNHIECommand(String command) {
         return command.equalsIgnoreCase(NEVER_HAVE_I_COMMAND) || command.equalsIgnoreCase(NEVER_HAVE_I_ATTR);
+    }
+
+    public boolean isSillyCommand(String command) {
+        return command.equalsIgnoreCase(SILLY_COMMAND) || command.equalsIgnoreCase(SILLY_COMMAND_ATTR);
     }
 
     private ReplyKeyboardMarkup getReplyKeyboardMarkup() {
