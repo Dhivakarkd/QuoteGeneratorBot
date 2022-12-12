@@ -31,6 +31,9 @@ public class QuestionHelper {
     private static final String SILLY_COMMAND = "/dontaskit";
     private static final String SILLY_COMMAND_ATTR = "/dontaskit@Helpmychatbot";
 
+    private static final String DEEP_COMMAND = "/deepquestion";
+    private static final String DEEP_COMMAND_ATTR = "/deepquestion@Helpmychatbot";
+
     private static final String NEVER_HAVE_I_COMMAND = "/neverhaveiever";
     private static final String NEVER_HAVE_I_ATTR = "/neverhaveiever@Helpmychatbot";
     private final QuestionAdapter questionAdapter;
@@ -78,6 +81,17 @@ public class QuestionHelper {
     public SendMessage generateSillyMessage(long chatID) {
 
         String question = questionAdapter.getSillyQuestion().getQuestion();
+
+        return SendMessage.builder()
+                .chatId(chatID)
+                .text(question)
+                .build();
+
+    }
+
+    public SendMessage generateDeepMessage(long chatID) {
+
+        String question = questionAdapter.getDeepQuestion().getQuestion();
 
         return SendMessage.builder()
                 .chatId(chatID)
@@ -137,6 +151,10 @@ public class QuestionHelper {
 
     public boolean isSillyCommand(String command) {
         return command.equalsIgnoreCase(SILLY_COMMAND) || command.equalsIgnoreCase(SILLY_COMMAND_ATTR);
+    }
+
+    public boolean isDeepQuestion(String command) {
+        return command.equalsIgnoreCase(DEEP_COMMAND) || command.equalsIgnoreCase(DEEP_COMMAND_ATTR);
     }
 
     private ReplyKeyboardMarkup getReplyKeyboardMarkup() {
