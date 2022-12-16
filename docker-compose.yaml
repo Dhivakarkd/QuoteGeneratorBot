@@ -2,7 +2,7 @@ version: '2'
 services:
   backend:
     container_name: quote_bot
-    image: quote_bot
+    image: dhivakarkd/quote-bot:latest
     mem_limit: 250m
     mem_reservation: 200M
     restart: unless-stopped
