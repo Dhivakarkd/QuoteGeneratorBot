@@ -38,4 +38,12 @@ public class QuestionAdapter {
         return questionRepo.getSillyQuestion();
     }
 
+    public QuestionDO getTruthQuestion() {
+        return questionRepo.getTruthQuestion();
+    }
+
+    public QuestionDO getDareQuestion() {
+        return questionRepo.getDareQuestion();
+    }
+
 }

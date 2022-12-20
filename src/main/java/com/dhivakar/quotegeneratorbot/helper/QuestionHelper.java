@@ -34,6 +34,9 @@ public class QuestionHelper {
     private static final String DEEP_COMMAND = "/deepquestion";
     private static final String DEEP_COMMAND_ATTR = "/deepquestion@Helpmychatbot";
 
+    private static final String TOD_COMMAND = "/truthordare";
+    private static final String TOD_COMMAND_ATTR = "/truthordare@Helpmychatbot";
+
     private static final String NEVER_HAVE_I_COMMAND = "/neverhaveiever";
     private static final String NEVER_HAVE_I_ATTR = "/neverhaveiever@Helpmychatbot";
     private final QuestionAdapter questionAdapter;
@@ -46,7 +49,9 @@ public class QuestionHelper {
                 "If you are struggling to come up with questions to start/continue a conversation" + BotUtil.NEXT_LINE +
                 "We have list of questions to help you" + "\uD83D\uDCAC" + BotUtil.NEXT_LINE +
                 "Send " + QUES_COMMAND + " to get some random questions as per your request \uD83D\uDCE7" + BotUtil.NEXT_LINE +
-                "Send " + NEVER_HAVE_I_COMMAND + " to get Never Have I Ever Questions \uD83E\uDD37\uD83C\uDFFB";
+                "Send " + NEVER_HAVE_I_COMMAND + " to get Never Have I Ever Questions \uD83E\uDD37\uD83C\uDFFB" + BotUtil.NEXT_LINE +
+                "Send " + TOD_COMMAND + " to get Truth or Dare Questions " + BotUtil.NEXT_LINE +
+                "Send " + DEEP_COMMAND + " to Deep Meaningful Questions";
 
 
         return SendMessage.builder()
@@ -63,6 +68,16 @@ public class QuestionHelper {
                 .chatId(update.getMessage().getChatId())
                 .text("Select Question Type ")
                 .replyMarkup(getInlineKeyboardMarkup())
+                .build();
+
+    }
+
+    public SendMessage generateTruthOrDareMessage(Update update) {
+
+        return SendMessage.builder()
+                .chatId(update.getMessage().getChatId())
+                .text("Select the Question Type")
+                .replyMarkup(getTODInlineKeyboardMarkup())
                 .build();
 
     }
@@ -117,6 +132,10 @@ public class QuestionHelper {
             return questionAdapter.getDeepQuestion().getQuestion();
         } else if (CommonUtil.WEIRD_CALL_BACK.equals(callBackReply)) {
             return questionAdapter.getWeirdQuestion().getQuestion();
+        } else if (CommonUtil.TRUTH_QUES_CALLBACK.equals(callBackReply)) {
+            return questionAdapter.getTruthQuestion().getQuestion();
+        } else if (CommonUtil.DARE_QUES_CALLBACK.equals(callBackReply)) {
+            return questionAdapter.getDareQuestion().getQuestion();
         } else {
             return questionAdapter.getFunnyQuestion().getQuestion();
         }
@@ -155,6 +174,10 @@ public class QuestionHelper {
 
     public boolean isDeepQuestion(String command) {
         return command.equalsIgnoreCase(DEEP_COMMAND) || command.equalsIgnoreCase(DEEP_COMMAND_ATTR);
+    }
+
+    public boolean isTODQuestion(String command) {
+        return command.equalsIgnoreCase(TOD_COMMAND) || command.equalsIgnoreCase(TOD_COMMAND_ATTR);
     }
 
     private ReplyKeyboardMarkup getReplyKeyboardMarkup() {
@@ -201,6 +224,36 @@ public class QuestionHelper {
         rowInline1.add(funnyButton);
         rowInline1.add(weirdButton);
         rowInline2.add(deepMeaningButton);
+
+        // Set the keyboard to the markup
+        rowsInline.add(rowInline1);
+        rowsInline.add(rowInline2);
+        // Add it to the message
+        markupInline.setKeyboard(rowsInline);
+
+        return markupInline;
+    }
+
+    private InlineKeyboardMarkup getTODInlineKeyboardMarkup() {
+
+        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
+        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline1 = new ArrayList<>();
+        List<InlineKeyboardButton> rowInline2 = new ArrayList<>();
+
+        InlineKeyboardButton truthButton = new InlineKeyboardButton();
+
+        truthButton.setText(CommonUtil.TRUTH_TEXT);
+        truthButton.setCallbackData(CommonUtil.TRUTH_QUES_CALLBACK);
+
+        InlineKeyboardButton dareButton = new InlineKeyboardButton();
+
+        dareButton.setText(CommonUtil.DARE_TEXT);
+        dareButton.setCallbackData(CommonUtil.DARE_QUES_CALLBACK);
+
+
+        rowInline1.add(truthButton);
+        rowInline1.add(dareButton);
 
         // Set the keyboard to the markup
         rowsInline.add(rowInline1);
