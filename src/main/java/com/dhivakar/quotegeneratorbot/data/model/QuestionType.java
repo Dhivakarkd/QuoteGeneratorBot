@@ -1,8 +1,7 @@
 package com.dhivakar.quotegeneratorbot.data.model;
 
-import lombok.Data;
 
 public enum QuestionType {
 
-    FUNNY, WEIRD, CREATIVE, DEEP_MEANING, NVR_HV_I_EVE, NON_SENSE
+    FUNNY, WEIRD, CREATIVE, DEEP_MEANING, NVR_HV_I_EVE, NON_SENSE ,TRUTH,DARE
 }
