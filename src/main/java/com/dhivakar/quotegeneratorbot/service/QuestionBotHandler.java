@@ -51,9 +51,12 @@ public class QuestionBotHandler extends TelegramLongPollingBot {
             } else if (questionHelper.isSillyCommand(command)) {
                 log.info(PUBLISHED_EVENT_LOG, "SILLY", command);
                 publishMessage(questionHelper.generateSillyMessage(update.getMessage().getChatId()));
-            }  else if (questionHelper.isDeepQuestion(command)) {
+            } else if (questionHelper.isDeepQuestion(command)) {
                 log.info(PUBLISHED_EVENT_LOG, "DEEP", command);
                 publishMessage(questionHelper.generateDeepMessage(update.getMessage().getChatId()));
+            } else if (questionHelper.isTODQuestion(command)) {
+                log.info(PUBLISHED_EVENT_LOG, "TOD", command);
+                publishMessage(questionHelper.generateTruthOrDareMessage(update));
             } else {
                 log.info("Received a Command : {}", command);
             }
