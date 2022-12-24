@@ -1,7 +1,7 @@
 package com.dhivakar.quotegeneratorbot.service;
 
-import com.dhivakar.quotegeneratorbot.data.adapter.QuestionAdapter;
 import com.dhivakar.quotegeneratorbot.helper.QuestionHelper;
+import com.dhivakar.quotegeneratorbot.model.QuestionCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,8 +17,6 @@ public class QuestionBotHandler extends TelegramLongPollingBot {
     public static final String PUBLISHED_EVENT_LOG = "Published {} event for Command {}";
     private static final String BOT_NAME = System.getenv("QUES_BOT_NAME");
     private static final String BOT_TOKEN = System.getenv("QUES_BOT_TOKEN");
-    @Autowired
-    private QuestionAdapter adapter;
 
     @Autowired
     private QuestionHelper questionHelper;
@@ -37,29 +35,8 @@ public class QuestionBotHandler extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage() && update.getMessage().isCommand()) {
-
             String command = update.getMessage().getText();
-            if (questionHelper.isStartCommand(command)) {
-                log.info(PUBLISHED_EVENT_LOG, "START", command);
-                publishMessage(questionHelper.generateSendMessage(update));
-            } else if (questionHelper.isQuesCommand(command)) {
-                log.info(PUBLISHED_EVENT_LOG, "Question", command);
-                publishMessage(questionHelper.generateQuestionMessage(update));
-            } else if (questionHelper.isNHIECommand(command)) {
-                log.info(PUBLISHED_EVENT_LOG, "NHIE", command);
-                publishMessage(questionHelper.generateNHIEMessage(update.getMessage().getChatId()));
-            } else if (questionHelper.isSillyCommand(command)) {
-                log.info(PUBLISHED_EVENT_LOG, "SILLY", command);
-                publishMessage(questionHelper.generateSillyMessage(update.getMessage().getChatId()));
-            } else if (questionHelper.isDeepQuestion(command)) {
-                log.info(PUBLISHED_EVENT_LOG, "DEEP", command);
-                publishMessage(questionHelper.generateDeepMessage(update.getMessage().getChatId()));
-            } else if (questionHelper.isTODQuestion(command)) {
-                log.info(PUBLISHED_EVENT_LOG, "TOD", command);
-                publishMessage(questionHelper.generateTruthOrDareMessage(update));
-            } else {
-                log.info("Received a Command : {}", command);
-            }
+            processMessage(update, command);
         } else if (update.hasCallbackQuery()) {
 
             EditMessageText editMessageText = questionHelper.handleCallBack(update);
@@ -68,6 +45,40 @@ public class QuestionBotHandler extends TelegramLongPollingBot {
         } else {
             log.info("Message is {}", update.getMessage().getText());
         }
+    }
+
+    private void processMessage(Update update, String userCommand) {
+
+        QuestionCommand commandEnum = QuestionCommand.getAPIEnumFromValue(userCommand);
+
+        switch (commandEnum) {
+
+            case START:
+                log.info(PUBLISHED_EVENT_LOG, commandEnum, commandEnum.getCommand());
+                publishMessage(questionHelper.generateSendMessage(update));
+                break;
+            case QUESTION:
+                log.info(PUBLISHED_EVENT_LOG, commandEnum, commandEnum.getCommand());
+                publishMessage(questionHelper.generateQuestionMessage(update));
+                break;
+            case TRUTH_OR_DARE:
+                log.info(PUBLISHED_EVENT_LOG, commandEnum, commandEnum.getCommand());
+                publishMessage(questionHelper.generateTruthOrDareMessage(update));
+                break;
+            case FUNNY:
+            case WEIRD:
+            case DEEP_QUESTION:
+            case DONT_ASK_IT:
+            case TRUTH:
+            case DARE:
+            case NEVER_HAVE_I_EVER:
+                log.info(PUBLISHED_EVENT_LOG, commandEnum, commandEnum.getCommand());
+                publishMessage(questionHelper.generateDefaultMessage(commandEnum, update.getMessage().getChatId()));
+                break;
+            case DEFAULT:
+
+        }
+
     }
 
     private void publishMessage(EditMessageText editMessageText) {

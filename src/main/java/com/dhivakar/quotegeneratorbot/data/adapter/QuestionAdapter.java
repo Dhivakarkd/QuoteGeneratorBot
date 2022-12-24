@@ -2,6 +2,7 @@ package com.dhivakar.quotegeneratorbot.data.adapter;
 
 import com.dhivakar.quotegeneratorbot.data.model.QuestionDO;
 import com.dhivakar.quotegeneratorbot.data.repo.QuestionRepo;
+import com.dhivakar.quotegeneratorbot.model.QuestionCommand;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,8 @@ public class QuestionAdapter {
 
     private final QuestionRepo questionRepo;
 
-    public QuestionDO getQuestion() {
-        return questionRepo.findById(1).get();
+    public QuestionDO getQuestion(QuestionCommand questionCommand) {
+        return questionRepo.getQuestion(questionCommand.getDatabaseValue());
     }
 
 
@@ -30,13 +31,6 @@ public class QuestionAdapter {
         return questionRepo.getDeepQuestion();
     }
 
-    public QuestionDO getNHIEQuestion() {
-        return questionRepo.getNHIEQuestion();
-    }
-
-    public QuestionDO getSillyQuestion() {
-        return questionRepo.getSillyQuestion();
-    }
 
     public QuestionDO getTruthQuestion() {
         return questionRepo.getTruthQuestion();

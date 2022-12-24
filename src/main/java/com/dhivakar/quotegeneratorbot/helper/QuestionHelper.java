@@ -3,6 +3,7 @@ package com.dhivakar.quotegeneratorbot.helper;
 
 import com.dhivakar.quotegeneratorbot.data.adapter.QuestionAdapter;
 import com.dhivakar.quotegeneratorbot.event.utils.BotUtil;
+import com.dhivakar.quotegeneratorbot.model.QuestionCommand;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,22 +24,6 @@ import java.util.List;
 public class QuestionHelper {
 
 
-    private static final String START_COMMAND = "/start";
-    private static final String START_COMMAND_ATTR = "/start@Helpmychatbot";
-    private static final String QUES_COMMAND = "/question";
-    private static final String QUES_COMMAND_ATTR = "/question@Helpmychatbot";
-
-    private static final String SILLY_COMMAND = "/dontaskit";
-    private static final String SILLY_COMMAND_ATTR = "/dontaskit@Helpmychatbot";
-
-    private static final String DEEP_COMMAND = "/deepquestion";
-    private static final String DEEP_COMMAND_ATTR = "/deepquestion@Helpmychatbot";
-
-    private static final String TOD_COMMAND = "/truthordare";
-    private static final String TOD_COMMAND_ATTR = "/truthordare@Helpmychatbot";
-
-    private static final String NEVER_HAVE_I_COMMAND = "/neverhaveiever";
-    private static final String NEVER_HAVE_I_ATTR = "/neverhaveiever@Helpmychatbot";
     private final QuestionAdapter questionAdapter;
 
     public SendMessage generateSendMessage(Update update) {
@@ -48,10 +33,10 @@ public class QuestionHelper {
         String replyText = "Welcome " + lastName + "\uD83D\uDC4B" + BotUtil.NEXT_LINE +
                 "If you are struggling to come up with questions to start/continue a conversation" + BotUtil.NEXT_LINE +
                 "We have list of questions to help you" + "\uD83D\uDCAC" + BotUtil.NEXT_LINE +
-                "Send " + QUES_COMMAND + " to get some random questions as per your request \uD83D\uDCE7" + BotUtil.NEXT_LINE +
-                "Send " + NEVER_HAVE_I_COMMAND + " to get Never Have I Ever Questions \uD83E\uDD37\uD83C\uDFFB" + BotUtil.NEXT_LINE +
-                "Send " + TOD_COMMAND + " to get Truth or Dare Questions " + BotUtil.NEXT_LINE +
-                "Send " + DEEP_COMMAND + " to Deep Meaningful Questions";
+                "Send " + QuestionCommand.QUESTION.getCommand() + " to get some random questions as per your request \uD83D\uDCE7" + BotUtil.NEXT_LINE +
+                "Send " + QuestionCommand.NEVER_HAVE_I_EVER.getCommand() + " to get Never Have I Ever Questions \uD83E\uDD37\uD83C\uDFFB" + BotUtil.NEXT_LINE +
+                "Send " + QuestionCommand.TRUTH_OR_DARE.getCommand() + " to get Truth or Dare Questions " + BotUtil.NEXT_LINE +
+                "Send " + QuestionCommand.DEEP_QUESTION.getCommand() + " to Deep Meaningful Questions";
 
 
         return SendMessage.builder()
@@ -82,37 +67,15 @@ public class QuestionHelper {
 
     }
 
-    public SendMessage generateNHIEMessage(long chatID) {
 
-        String question = questionAdapter.getNHIEQuestion().getQuestion();
+    public SendMessage generateDefaultMessage(QuestionCommand command, long chatID) {
 
-        return SendMessage.builder()
-                .chatId(chatID)
-                .text(question)
-                .build();
-
-    }
-
-    public SendMessage generateSillyMessage(long chatID) {
-
-        String question = questionAdapter.getSillyQuestion().getQuestion();
+        String question = questionAdapter.getQuestion(command).getQuestion();
 
         return SendMessage.builder()
                 .chatId(chatID)
                 .text(question)
                 .build();
-
-    }
-
-    public SendMessage generateDeepMessage(long chatID) {
-
-        String question = questionAdapter.getDeepQuestion().getQuestion();
-
-        return SendMessage.builder()
-                .chatId(chatID)
-                .text(question)
-                .build();
-
     }
 
 
@@ -156,29 +119,6 @@ public class QuestionHelper {
 
     }
 
-    public boolean isQuesCommand(String command) {
-        return command.equalsIgnoreCase(QUES_COMMAND) || command.equalsIgnoreCase(QUES_COMMAND_ATTR);
-    }
-
-    public boolean isStartCommand(String command) {
-        return command.equalsIgnoreCase(START_COMMAND) || command.equalsIgnoreCase(START_COMMAND_ATTR);
-    }
-
-    public boolean isNHIECommand(String command) {
-        return command.equalsIgnoreCase(NEVER_HAVE_I_COMMAND) || command.equalsIgnoreCase(NEVER_HAVE_I_ATTR);
-    }
-
-    public boolean isSillyCommand(String command) {
-        return command.equalsIgnoreCase(SILLY_COMMAND) || command.equalsIgnoreCase(SILLY_COMMAND_ATTR);
-    }
-
-    public boolean isDeepQuestion(String command) {
-        return command.equalsIgnoreCase(DEEP_COMMAND) || command.equalsIgnoreCase(DEEP_COMMAND_ATTR);
-    }
-
-    public boolean isTODQuestion(String command) {
-        return command.equalsIgnoreCase(TOD_COMMAND) || command.equalsIgnoreCase(TOD_COMMAND_ATTR);
-    }
 
     private ReplyKeyboardMarkup getReplyKeyboardMarkup() {
         ReplyKeyboardMarkup keyboardMarkup = new ReplyKeyboardMarkup();
