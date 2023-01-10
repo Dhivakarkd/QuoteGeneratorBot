@@ -26,7 +26,7 @@ public class DailyQuoteScheduler {
         this.botAdapter = botAdapter;
     }
 
-    @Scheduled(cron = "0 0 0,23 * * ?")
+    @Scheduled(cron = "0 0 23 * * ?")
     public void sendDailyQuoteToActiveBotUsers() {
 
         List<BotUser> botUserList = botAdapter.getAllActiveUserList();
